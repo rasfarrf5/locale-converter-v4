@@ -1,0 +1,26 @@
+<idea-plugin>
+    <id>com.singaporeair.locale.convert.locale_converter_v4</id>
+    <name>SingaporeAir Locale Converter</name>
+    <vendor email="rasik_fa@singaporeair.com.sg" url="http://www.singaporeair.com">SingaporeAir</vendor>
+
+    <description>SingaporeAir Locale Converter for IntelliJ</description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <!--<extensions defaultExtensionNs="com.intellij">
+        <toolWindow id="converter.intellij.LocaleWindowFactory"
+                    secondary="true"
+                    icon="/icons/locale.png"
+                    anchor="right"
+                    factoryClass="converter.intellij.LocaleWindowFactory"/>
+    </extensions>-->
+
+    <actions>
+        <group id="converter.plugin.LocaleActionsMenu" text="_Locale Menu" description="Locale menu">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+            <action id="converter.intellij.LocaleActions"
+                    class="converter.intellij.LocaleActions"
+                    text="_Locale Converter"/>
+        </group>
+    </actions>
+</idea-plugin>
