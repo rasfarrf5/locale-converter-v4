@@ -11,6 +11,7 @@ public class LocaleTask extends SwingWorker<Void, Void> {
 
 	private final boolean isAndroid;
 	private final File selectedFile;
+	private final File destinationPath;
 	private final List<Integer> languageToConvert;
 	private final LocaleTaskListener listener;
 
@@ -18,10 +19,12 @@ public class LocaleTask extends SwingWorker<Void, Void> {
 
 	public LocaleTask(boolean isAndroid,
 						 File selectedFile,
+						 File destinationPath,
 						 List<Integer> languageToConvert,
 						 LocaleTaskListener listener) {
 		this.isAndroid = isAndroid;
 		this.selectedFile = selectedFile;
+		this.destinationPath = destinationPath;
 		this.languageToConvert = languageToConvert;
 		this.listener = listener;
 	}
@@ -33,13 +36,13 @@ public class LocaleTask extends SwingWorker<Void, Void> {
 					.loadSheet(
 							languageToConvert,
 							selectedFile.getAbsolutePath(),
-							selectedFile.getPath().replace("/" + selectedFile.getName(), "/android"));
+							destinationPath.getPath().replace("/" + selectedFile.getName(), "/android"));
 		} else {
 			taskStatus = new ConvertIosLocale()
 					.loadSheet(
 							languageToConvert,
 							selectedFile.getAbsolutePath(),
-							selectedFile.getPath().replace("/" + selectedFile.getName(), "/ios"));
+							destinationPath.getPath().replace("/" + selectedFile.getName(), "/ios"));
 		}
 		return null;
 	}

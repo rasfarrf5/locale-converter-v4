@@ -14,6 +14,9 @@ public class LocaleDialogWrapper extends DialogWrapper {
 		super(true);
 		init();
 		setTitle("Locale Converter");
+		setOKButtonText("Start");
+
+		getOKAction().addPropertyChangeListener(listener -> converterV2.startConverter());
 	}
 
 	@Nullable

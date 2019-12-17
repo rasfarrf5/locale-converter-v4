@@ -1,6 +1,5 @@
 package converter.plugin;
 
-import com.intellij.ui.JBColor;
 import converter.plugin.support.LocaleTask;
 import converter.plugin.support.LocaleTaskListener;
 
@@ -37,8 +36,10 @@ public class LocalizationConverterV2 extends JPanel implements LocaleTaskListene
 
 	private JLabel statusLabel = new JLabel("", JLabel.CENTER);
 	private JLabel localeFileLabel = new JLabel("", JLabel.CENTER);
+	private JLabel destinationFolderLabel = new JLabel("", JLabel.CENTER);
 
 	private File selectedFile = null;
+	private File destinationPath = null;
 	private JPanel mainPanel = new JPanel();
 
 	public LocalizationConverterV2() {
@@ -58,54 +59,10 @@ public class LocalizationConverterV2 extends JPanel implements LocaleTaskListene
 		return mainPanel;
 	}
 
-	/*class LocaleTask extends SwingWorker<Void, Void> {
-
-		private final boolean isAndroid;
-		private final List<Integer> languageToConvert;
-
-		private boolean taskStatus = false;
-
-		LocaleTask(boolean isAndroid, List<Integer> languageToConvert) {
-			this.isAndroid = isAndroid;
-			this.languageToConvert = languageToConvert;
-		}
-
-		@Override
-		protected Void doInBackground() throws Exception {
-			if (isAndroid) {
-				taskStatus = new ConvertAndroidLocale()
-						.loadSheet(
-								languageToConvert,
-								selectedFile.getAbsolutePath(),
-								selectedFile.getPath().replace("/" + selectedFile.getName(), "/android"));
-			} else {
-				taskStatus = new ConvertIosLocale()
-						.loadSheet(
-								languageToConvert,
-								selectedFile.getAbsolutePath(),
-								selectedFile.getPath().replace("/" + selectedFile.getName(), "/ios"));
-			}
-			return null;
-		}
-
-		@Override
-		protected void done() {
-			super.done();
-			if (taskStatus) {
-				showSuccessMessage();
-			} else {
-				showFailureMessage();
-			}
-		}
-	}*/
-
 	private JPanel getOutputPanel() {
 		JPanel outputPanel = new JPanel();
 		outputPanel.setBorder(BorderFactory.createTitledBorder("Output status:"));
 
-		JButton convertBtn = new JButton("Start");
-		convertBtn.addActionListener(x -> startConverter(androidRadioButton.isSelected()));
-		outputPanel.add(convertBtn);
 		outputPanel.add(statusLabel);
 		return outputPanel;
 	}
@@ -168,10 +125,20 @@ public class LocalizationConverterV2 extends JPanel implements LocaleTaskListene
 	private JPanel fileChooserPanel() {
 		JPanel panelFile = new JPanel();
 		panelFile.setBorder(BorderFactory.createTitledBorder("Choose localization file :"));
-		JButton pickFileBtn = new JButton("Choose File");
-		pickFileBtn.addActionListener(x -> openFileChooser());
+
+		panelFile.setLayout(new GridLayout(2, 2));
+
+		JButton pickFileBtn = new JButton("Pick Localization File");
+		JButton destinationFolderBtn = new JButton("Destination Folder");
+
 		panelFile.add(pickFileBtn);
 		panelFile.add(localeFileLabel);
+		panelFile.add(destinationFolderBtn);
+		panelFile.add(destinationFolderLabel);
+
+		pickFileBtn.addActionListener(x -> openFileChooser());
+		destinationFolderBtn.addActionListener(x -> openDestinationFile());
+
 		return panelFile;
 	}
 
@@ -181,14 +148,29 @@ public class LocalizationConverterV2 extends JPanel implements LocaleTaskListene
 		int returnValue = jfc.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = jfc.getSelectedFile();
+
 			this.selectedFile = selectedFile;
 			localeFileLabel.setText(selectedFile.getName());
 		}
 	}
 
-	private void startConverter(boolean isAndroid) {
+	private void openDestinationFile() {
+		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+		jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-		if(selectedFile == null) {
+		int returnValue = jfc.showOpenDialog(null);
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = jfc.getSelectedFile();
+
+			this.destinationPath = selectedFile;
+			destinationFolderLabel.setText(selectedFile.getPath());
+		}
+	}
+
+	public void startConverter() {
+		boolean isAndroid = androidRadioButton.isSelected();
+
+		if (selectedFile == null) {
 			statusLabel.setText("Please select file to proceed.");
 			return;
 		}
@@ -257,7 +239,7 @@ public class LocalizationConverterV2 extends JPanel implements LocaleTaskListene
 				}
 			}
 
-			new LocaleTask(isAndroid, selectedFile, languageToConvert, this).execute();
+			new LocaleTask(isAndroid, selectedFile, destinationPath, languageToConvert, this).execute();
 
 		} catch (Exception e) {
 			onTaskFailed();
@@ -267,12 +249,12 @@ public class LocalizationConverterV2 extends JPanel implements LocaleTaskListene
 	@Override
 	public void onTaskSuccess() {
 		statusLabel.setText("Strings converted successfully");
-		statusLabel.setForeground(JBColor.GREEN);
+		statusLabel.setForeground(Color.GREEN);
 	}
 
 	@Override
 	public void onTaskFailed() {
 		statusLabel.setText("Problem with converter please try again!!");
-		statusLabel.setForeground(JBColor.RED);
+		statusLabel.setForeground(Color.RED);
 	}
 }
