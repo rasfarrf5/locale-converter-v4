@@ -43,15 +43,18 @@ public class LocalizationConverterV2 extends JPanel implements LocaleTaskListene
 	private JPanel mainPanel = new JPanel();
 
 	public LocalizationConverterV2() {
-		JPanel panelFile = fileChooserPanel();
-		JPanel osPanel = getOsPanel();
-		JPanel optionPanel = getOptionPanel();
-		JPanel outputPanel = getOutputPanel();
-
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
+		JPanel panelFile = fileChooserPanel();
 		mainPanel.add(panelFile);
+
+		JPanel osPanel = getOsPanel();
 		mainPanel.add(osPanel);
-		mainPanel.add(optionPanel);
+
+		// JPanel optionPanel = getOptionPanel();
+		// mainPanel.add(optionPanel);
+
+		JPanel outputPanel = getOutputPanel();
 		mainPanel.add(outputPanel);
 	}
 
@@ -63,6 +66,9 @@ public class LocalizationConverterV2 extends JPanel implements LocaleTaskListene
 		JPanel outputPanel = new JPanel();
 		outputPanel.setBorder(BorderFactory.createTitledBorder("Output status:"));
 
+		JButton convertBtn = new JButton("Start");
+		convertBtn.addActionListener(x -> startConverter());
+		outputPanel.add(convertBtn);
 		outputPanel.add(statusLabel);
 		return outputPanel;
 	}
@@ -128,8 +134,8 @@ public class LocalizationConverterV2 extends JPanel implements LocaleTaskListene
 
 		panelFile.setLayout(new GridLayout(2, 2));
 
-		JButton pickFileBtn = new JButton("Pick Localization File");
-		JButton destinationFolderBtn = new JButton("Destination Folder");
+		JButton pickFileBtn = new JButton("Localization File :");
+		JButton destinationFolderBtn = new JButton("Destination Folder :");
 
 		panelFile.add(pickFileBtn);
 		panelFile.add(localeFileLabel);
