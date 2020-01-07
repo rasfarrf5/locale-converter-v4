@@ -15,192 +15,192 @@ import static converter.plugin.support.ColumnInfo.*;
 
 public class LocalizationConverterV2 extends JPanel implements LocaleTaskListener {
 
-	private JCheckBox allCheck = new JCheckBox("All");
-	private JCheckBox englishCheck = new JCheckBox("English");
-	private JCheckBox chineseCheck = new JCheckBox("Chinese");
-	private JCheckBox tradChineseCheck = new JCheckBox("Trad Chinese");
-	private JCheckBox germanCheck = new JCheckBox("German");
-	private JCheckBox portugueseCheck = new JCheckBox("Portuguese");
-	private JCheckBox frenchCheck = new JCheckBox("French");
-	private JCheckBox japaneseCheck = new JCheckBox("Japanese");
-	private JCheckBox koreanCheck = new JCheckBox("Korean");
-	private JCheckBox russianCheck = new JCheckBox("Russian");
-	private JCheckBox spanishCheck = new JCheckBox("Spanish");
-	private JCheckBox indonesiaCheck = new JCheckBox("Bahasa Indonesia");
-	private JCheckBox dutchCheck = new JCheckBox("Dutch");
-	private JCheckBox italianCheck = new JCheckBox("Italian");
-	private JCheckBox thaiCheck = new JCheckBox("Thai");
+    private JCheckBox allCheck = new JCheckBox("All");
+    private JCheckBox englishCheck = new JCheckBox("English");
+    private JCheckBox chineseCheck = new JCheckBox("Chinese");
+    private JCheckBox tradChineseCheck = new JCheckBox("Trad Chinese");
+    private JCheckBox germanCheck = new JCheckBox("German");
+    private JCheckBox portugueseCheck = new JCheckBox("Portuguese");
+    private JCheckBox frenchCheck = new JCheckBox("French");
+    private JCheckBox japaneseCheck = new JCheckBox("Japanese");
+    private JCheckBox koreanCheck = new JCheckBox("Korean");
+    private JCheckBox russianCheck = new JCheckBox("Russian");
+    private JCheckBox spanishCheck = new JCheckBox("Spanish");
+    private JCheckBox indonesiaCheck = new JCheckBox("Bahasa Indonesia");
+    private JCheckBox dutchCheck = new JCheckBox("Dutch");
+    private JCheckBox italianCheck = new JCheckBox("Italian");
+    private JCheckBox thaiCheck = new JCheckBox("Thai");
 
-	private JRadioButton androidRadioButton = new JRadioButton("Android", true);
-	private JRadioButton iosRadioButton = new JRadioButton("iOS", false);
+    private JRadioButton androidRadioButton = new JRadioButton("Android", true);
+    private JRadioButton iosRadioButton = new JRadioButton("iOS", false);
 
-	private JLabel statusLabel = new JLabel("", JLabel.CENTER);
-	private JLabel localeFileLabel = new JLabel("", JLabel.CENTER);
-	private JLabel destinationFolderLabel = new JLabel("", JLabel.CENTER);
+    private JLabel statusLabel = new JLabel("", JLabel.CENTER);
+    private JLabel localeFileLabel = new JLabel("", JLabel.CENTER);
+    private JLabel destinationFolderLabel = new JLabel("", JLabel.CENTER);
 
-	private File selectedFile = null;
-	private File destinationPath = null;
-	private JPanel mainPanel = new JPanel();
+    private File selectedFile = null;
+    private File destinationPath = null;
+    private JPanel mainPanel = new JPanel();
 
-	public LocalizationConverterV2() {
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+    public LocalizationConverterV2() {
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
-		JPanel panelFile = fileChooserPanel();
-		mainPanel.add(panelFile);
+        JPanel panelFile = fileChooserPanel();
+        mainPanel.add(panelFile);
 
-		JPanel osPanel = getOsPanel();
-		mainPanel.add(osPanel);
+        JPanel osPanel = getOsPanel();
+        mainPanel.add(osPanel);
 
-		// JPanel optionPanel = getOptionPanel();
-		// mainPanel.add(optionPanel);
+        // JPanel optionPanel = getOptionPanel();
+        // mainPanel.add(optionPanel);
 
-		JPanel outputPanel = getOutputPanel();
-		mainPanel.add(outputPanel);
-	}
+        JPanel outputPanel = getOutputPanel();
+        mainPanel.add(outputPanel);
+    }
 
-	public JPanel getContent() {
-		return mainPanel;
-	}
+    public JPanel getContent() {
+        return mainPanel;
+    }
 
-	private JPanel getOutputPanel() {
-		JPanel outputPanel = new JPanel();
-		outputPanel.setBorder(BorderFactory.createTitledBorder("Output status:"));
+    private JPanel getOutputPanel() {
+        JPanel outputPanel = new JPanel();
+        outputPanel.setBorder(BorderFactory.createTitledBorder("Output status:"));
 
-		JButton convertBtn = new JButton("Start");
-		convertBtn.addActionListener(x -> startConverter());
-		outputPanel.add(convertBtn);
-		outputPanel.add(statusLabel);
-		return outputPanel;
-	}
+        JButton convertBtn = new JButton("Start");
+        convertBtn.addActionListener(x -> startConverter());
+        outputPanel.add(convertBtn);
+        outputPanel.add(statusLabel);
+        return outputPanel;
+    }
 
-	private JPanel getOptionPanel() {
-		JPanel optionPanel = new JPanel();
-		optionPanel.setBorder(BorderFactory.createTitledBorder("Choose locale to convert :"));
-		optionPanel.add(allCheck);
-		optionPanel.add(englishCheck);
-		optionPanel.add(chineseCheck);
-		optionPanel.add(tradChineseCheck);
-		optionPanel.add(germanCheck);
-		optionPanel.add(portugueseCheck);
-		optionPanel.add(frenchCheck);
-		optionPanel.add(japaneseCheck);
-		optionPanel.add(koreanCheck);
-		optionPanel.add(russianCheck);
-		optionPanel.add(spanishCheck);
-		optionPanel.add(indonesiaCheck);
-		optionPanel.add(dutchCheck);
-		optionPanel.add(italianCheck);
-		optionPanel.add(thaiCheck);
+    private JPanel getOptionPanel() {
+        JPanel optionPanel = new JPanel();
+        optionPanel.setBorder(BorderFactory.createTitledBorder("Choose locale to convert :"));
+        optionPanel.add(allCheck);
+        optionPanel.add(englishCheck);
+        optionPanel.add(chineseCheck);
+        optionPanel.add(tradChineseCheck);
+        optionPanel.add(germanCheck);
+        optionPanel.add(portugueseCheck);
+        optionPanel.add(frenchCheck);
+        optionPanel.add(japaneseCheck);
+        optionPanel.add(koreanCheck);
+        optionPanel.add(russianCheck);
+        optionPanel.add(spanishCheck);
+        optionPanel.add(indonesiaCheck);
+        optionPanel.add(dutchCheck);
+        optionPanel.add(italianCheck);
+        optionPanel.add(thaiCheck);
 
-		allCheck.addItemListener(e -> {
-			englishCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
-			chineseCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
-			tradChineseCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
-			germanCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
-			portugueseCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
-			frenchCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
-			japaneseCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
-			koreanCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
-			russianCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
-			spanishCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
-			indonesiaCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
-			dutchCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
-			italianCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
-			thaiCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
-		});
+        allCheck.addItemListener(e -> {
+            englishCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
+            chineseCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
+            tradChineseCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
+            germanCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
+            portugueseCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
+            frenchCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
+            japaneseCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
+            koreanCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
+            russianCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
+            spanishCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
+            indonesiaCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
+            dutchCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
+            italianCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
+            thaiCheck.setSelected(e.getStateChange() == ItemEvent.SELECTED);
+        });
 
-		allCheck.setSelected(true);
-		optionPanel.setLayout(new GridLayout(5, 3));
-		return optionPanel;
-	}
+        allCheck.setSelected(true);
+        optionPanel.setLayout(new GridLayout(5, 3));
+        return optionPanel;
+    }
 
-	private JPanel getOsPanel() {
-		JPanel osPanel = new JPanel();
-		osPanel.setBorder(BorderFactory.createTitledBorder("Choose OS type :"));
-		osPanel.setLayout(new FlowLayout());
-		ButtonGroup osGroup = new ButtonGroup();
+    private JPanel getOsPanel() {
+        JPanel osPanel = new JPanel();
+        osPanel.setBorder(BorderFactory.createTitledBorder("Choose OS type :"));
+        osPanel.setLayout(new FlowLayout());
+        ButtonGroup osGroup = new ButtonGroup();
 
-		osGroup.add(androidRadioButton);
-		osGroup.add(iosRadioButton);
+        osGroup.add(androidRadioButton);
+        osGroup.add(iosRadioButton);
 
-		osPanel.add(androidRadioButton);
-		osPanel.add(iosRadioButton);
-		return osPanel;
-	}
+        osPanel.add(androidRadioButton);
+        osPanel.add(iosRadioButton);
+        return osPanel;
+    }
 
-	private JPanel fileChooserPanel() {
-		JPanel panelFile = new JPanel();
-		panelFile.setBorder(BorderFactory.createTitledBorder("Choose localization file :"));
+    private JPanel fileChooserPanel() {
+        JPanel panelFile = new JPanel();
+        panelFile.setBorder(BorderFactory.createTitledBorder("Choose localization file :"));
 
-		panelFile.setLayout(new GridLayout(2, 2));
+        panelFile.setLayout(new GridLayout(2, 2));
 
-		JButton pickFileBtn = new JButton("Localization File :");
-		JButton destinationFolderBtn = new JButton("Destination Folder :");
+        JButton pickFileBtn = new JButton("Localization File :");
+        JButton destinationFolderBtn = new JButton("Destination Folder :");
 
-		panelFile.add(pickFileBtn);
-		panelFile.add(localeFileLabel);
-		panelFile.add(destinationFolderBtn);
-		panelFile.add(destinationFolderLabel);
+        panelFile.add(pickFileBtn);
+        panelFile.add(localeFileLabel);
+        panelFile.add(destinationFolderBtn);
+        panelFile.add(destinationFolderLabel);
 
-		pickFileBtn.addActionListener(x -> openFileChooser());
-		destinationFolderBtn.addActionListener(x -> openDestinationFile());
+        pickFileBtn.addActionListener(x -> openFileChooser());
+        destinationFolderBtn.addActionListener(x -> openDestinationFile());
 
-		return panelFile;
-	}
+        return panelFile;
+    }
 
-	private void openFileChooser() {
-		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+    private void openFileChooser() {
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
-		int returnValue = jfc.showOpenDialog(null);
-		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			File selectedFile = jfc.getSelectedFile();
+        int returnValue = jfc.showOpenDialog(null);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = jfc.getSelectedFile();
 
-			this.selectedFile = selectedFile;
-			localeFileLabel.setText(selectedFile.getName());
-		}
-	}
+            this.selectedFile = selectedFile;
+            localeFileLabel.setText(selectedFile.getName());
+        }
+    }
 
-	private void openDestinationFile() {
-		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-		jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+    private void openDestinationFile() {
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-		int returnValue = jfc.showOpenDialog(null);
-		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			File selectedFile = jfc.getSelectedFile();
+        int returnValue = jfc.showOpenDialog(null);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = jfc.getSelectedFile();
 
-			this.destinationPath = selectedFile;
-			destinationFolderLabel.setText(selectedFile.getPath());
-		}
-	}
+            this.destinationPath = selectedFile;
+            destinationFolderLabel.setText(selectedFile.getPath());
+        }
+    }
 
-	public void startConverter() {
-		boolean isAndroid = androidRadioButton.isSelected();
+    public void startConverter() {
+        boolean isAndroid = androidRadioButton.isSelected();
 
-		if (selectedFile == null) {
-			statusLabel.setText("Please select file to proceed.");
-			return;
-		}
+        if (selectedFile == null) {
+            statusLabel.setText("Please select file to proceed.");
+            return;
+        }
 
-		statusLabel.setText("Processing...");
+        statusLabel.setText("Processing...");
 
-		try {
-			List<Integer> languageToConvert = new ArrayList<>();
-			if (allCheck.isSelected()) {
-				languageToConvert.add(COLUMN_ENGLISH);
-				languageToConvert.add(COLUMN_SIMPLIFIED_CHINESE);
-				languageToConvert.add(COLUMN_TRADITIONAL_CHINESE);
-				languageToConvert.add(COLUMN_GERMAN);
-				languageToConvert.add(COLUMN_PORTUGAL);
-				languageToConvert.add(COLUMN_FRENCH);
-				languageToConvert.add(COLUMN_JAPANESE);
-				languageToConvert.add(COLUMN_KOREAN);
-				languageToConvert.add(COLUMN_RUSSIAN);
-				languageToConvert.add(COLUMN_SPANISH);
-				languageToConvert.add(COLUMN_INDONESIA);
-				languageToConvert.add(COLUMN_DUTCH);
-				languageToConvert.add(COLUMN_ITALY);
-				languageToConvert.add(COLUMN_THAI);
-			} else {
+        try {
+            List<Integer> languageToConvert = new ArrayList<>();
+            // if (allCheck.isSelected()) {
+            languageToConvert.add(COLUMN_ENGLISH);
+            languageToConvert.add(COLUMN_SIMPLIFIED_CHINESE);
+            languageToConvert.add(COLUMN_TRADITIONAL_CHINESE);
+            languageToConvert.add(COLUMN_GERMAN);
+            languageToConvert.add(COLUMN_PORTUGAL);
+            languageToConvert.add(COLUMN_FRENCH);
+            languageToConvert.add(COLUMN_JAPANESE);
+            languageToConvert.add(COLUMN_KOREAN);
+            languageToConvert.add(COLUMN_RUSSIAN);
+            languageToConvert.add(COLUMN_SPANISH);
+            languageToConvert.add(COLUMN_INDONESIA);
+            languageToConvert.add(COLUMN_DUTCH);
+            languageToConvert.add(COLUMN_ITALY);
+            languageToConvert.add(COLUMN_THAI);
+			/*} else {
 				if (englishCheck.isSelected()) {
 					languageToConvert.add(COLUMN_ENGLISH);
 				}
@@ -243,24 +243,24 @@ public class LocalizationConverterV2 extends JPanel implements LocaleTaskListene
 				if (thaiCheck.isSelected()) {
 					languageToConvert.add(COLUMN_THAI);
 				}
-			}
+			}*/
 
-			new LocaleTask(isAndroid, selectedFile, destinationPath, languageToConvert, this).execute();
+            new LocaleTask(isAndroid, selectedFile, destinationPath, languageToConvert, this).execute();
 
-		} catch (Exception e) {
-			onTaskFailed();
-		}
-	}
+        } catch (Exception e) {
+            onTaskFailed();
+        }
+    }
 
-	@Override
-	public void onTaskSuccess() {
-		statusLabel.setText("Strings converted successfully");
-		statusLabel.setForeground(Color.GREEN);
-	}
+    @Override
+    public void onTaskSuccess() {
+        statusLabel.setText("Strings converted successfully");
+        statusLabel.setForeground(Color.GREEN);
+    }
 
-	@Override
-	public void onTaskFailed() {
-		statusLabel.setText("Problem with converter please try again!!");
-		statusLabel.setForeground(Color.RED);
-	}
+    @Override
+    public void onTaskFailed() {
+        statusLabel.setText("Problem with converter please try again!!");
+        statusLabel.setForeground(Color.RED);
+    }
 }

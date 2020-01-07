@@ -141,6 +141,7 @@ public class ConvertIosLocale {
 		return value
 				.replace("\n", "\\n")
 				.replace("'", "\\'")
+				.replace("\"", "\\\"")
 				.replace("<power>, <screen>, <bed>, <seat value> seat.", "%@")
 				.replace("<power>、<screen>、<bed>、<seat value> 座位。", "%@")
 				.replace("<US customs website link", "")

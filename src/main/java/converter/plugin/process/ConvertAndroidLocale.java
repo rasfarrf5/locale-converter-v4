@@ -25,60 +25,46 @@ public class ConvertAndroidLocale {
 
 		for (Integer localeType : languageToConvert) {
 			if (localeType == COLUMN_ENGLISH) {
-				createXmlForLocale(sheet, COLUMN_ENGLISH, outputFilePath + "/values"
-				);
+				createXmlForLocale(sheet, COLUMN_ENGLISH, outputFilePath + "/values");
 			}
 			if (localeType == COLUMN_SIMPLIFIED_CHINESE) {
-				createXmlForLocale(sheet, COLUMN_SIMPLIFIED_CHINESE, outputFilePath + "/values-zh-rCN"
-				);
+				createXmlForLocale(sheet, COLUMN_SIMPLIFIED_CHINESE, outputFilePath + "/values-zh-rCN");
 			}
 			if (localeType == COLUMN_TRADITIONAL_CHINESE) {
-				createXmlForLocale(sheet, COLUMN_TRADITIONAL_CHINESE, outputFilePath + "/values-zh-rTW"
-				);
+				createXmlForLocale(sheet, COLUMN_TRADITIONAL_CHINESE, outputFilePath + "/values-zh-rTW");
 			}
 			if (localeType == COLUMN_GERMAN) {
-				createXmlForLocale(sheet, COLUMN_GERMAN, outputFilePath + "/values-de"
-				);
+				createXmlForLocale(sheet, COLUMN_GERMAN, outputFilePath + "/values-de");
 			}
 			if (localeType == COLUMN_PORTUGAL) {
-				createXmlForLocale(sheet, COLUMN_PORTUGAL, outputFilePath + "/values-pt"
-				);
+				createXmlForLocale(sheet, COLUMN_PORTUGAL, outputFilePath + "/values-pt");
 			}
 			if (localeType == COLUMN_FRENCH) {
-				createXmlForLocale(sheet, COLUMN_FRENCH, outputFilePath + "/values-fr"
-				);
+				createXmlForLocale(sheet, COLUMN_FRENCH, outputFilePath + "/values-fr");
 			}
 			if (localeType == COLUMN_JAPANESE) {
-				createXmlForLocale(sheet, COLUMN_JAPANESE, outputFilePath + "/values-ja"
-				);
+				createXmlForLocale(sheet, COLUMN_JAPANESE, outputFilePath + "/values-ja");
 			}
 			if (localeType == COLUMN_KOREAN) {
-				createXmlForLocale(sheet, COLUMN_KOREAN, outputFilePath + "/values-ko"
-				);
+				createXmlForLocale(sheet, COLUMN_KOREAN, outputFilePath + "/values-ko");
 			}
 			if (localeType == COLUMN_RUSSIAN) {
-				createXmlForLocale(sheet, COLUMN_RUSSIAN, outputFilePath + "/values-ru"
-				);
+				createXmlForLocale(sheet, COLUMN_RUSSIAN, outputFilePath + "/values-ru");
 			}
 			if (localeType == COLUMN_SPANISH) {
-				createXmlForLocale(sheet, COLUMN_SPANISH, outputFilePath + "/values-es"
-				);
+				createXmlForLocale(sheet, COLUMN_SPANISH, outputFilePath + "/values-es");
 			}
 			if (localeType == COLUMN_INDONESIA) {
-				createXmlForLocale(sheet, COLUMN_INDONESIA, outputFilePath + "/values-in"
-				);
+				createXmlForLocale(sheet, COLUMN_INDONESIA, outputFilePath + "/values-in");
 			}
 			if (localeType == COLUMN_DUTCH) {
-				createXmlForLocale(sheet, COLUMN_DUTCH, outputFilePath + "/values-nl"
-				);
+				createXmlForLocale(sheet, COLUMN_DUTCH, outputFilePath + "/values-nl");
 			}
 			if (localeType == COLUMN_ITALY) {
-				createXmlForLocale(sheet, COLUMN_ITALY, outputFilePath + "/values-it"
-				);
+				createXmlForLocale(sheet, COLUMN_ITALY, outputFilePath + "/values-it");
 			}
 			if (localeType == COLUMN_THAI) {
-				createXmlForLocale(sheet, COLUMN_THAI, outputFilePath + "/values-th"
-				);
+				createXmlForLocale(sheet, COLUMN_THAI, outputFilePath + "/values-th");
 			}
 		}
 		return true;
@@ -160,6 +146,7 @@ public class ConvertAndroidLocale {
 				.replace("\n", "\\n")
 				.replace("&", "&amp;")
 				.replace("'", "\\'")
+                .replace("\"", "\\\"")
 				.replace("<power>, <screen>, <bed>, <seat value> seat.", "%1$s")
 				.replace("<power>、<screen>、<bed>、<seat value> 座位。", "%1$s")
 				.replace("<US customs website link", "")

@@ -36,13 +36,13 @@ public class LocaleTask extends SwingWorker<Void, Void> {
 					.loadSheet(
 							languageToConvert,
 							selectedFile.getAbsolutePath(),
-							destinationPath.getPath().replace("/" + selectedFile.getName(), "/android"));
+							destinationPath.getPath());
 		} else {
 			taskStatus = new ConvertIosLocale()
 					.loadSheet(
 							languageToConvert,
 							selectedFile.getAbsolutePath(),
-							destinationPath.getPath().replace("/" + selectedFile.getName(), "/ios"));
+							destinationPath.getPath());
 		}
 		return null;
 	}
