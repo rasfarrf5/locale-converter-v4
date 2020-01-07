@@ -7,14 +7,6 @@
 
     <depends>com.intellij.modules.platform</depends>
 
-    <!--<extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="converter.intellij.LocaleWindowFactory"
-                    secondary="true"
-                    icon="/icons/locale.png"
-                    anchor="right"
-                    factoryClass="converter.intellij.LocaleWindowFactory"/>
-    </extensions>-->
-
     <actions>
         <group id="converter.plugin.LocaleActionsMenu" text="_Locale Menu" description="Locale menu">
             <add-to-group group-id="ToolsMenu" anchor="last"/>

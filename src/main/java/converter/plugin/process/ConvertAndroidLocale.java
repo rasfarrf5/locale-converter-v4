@@ -162,7 +162,7 @@ public class ConvertAndroidLocale {
 				.replace("<value 3>", "%3$s")
 				.replace("<value 4>", "%4$s")
 				.replace("<number 1>", "%1$d")
-				.replace("<value 1> à <value 2>", "%1$d à %2$d")
+				.replace("<value 1> à <value 2>", "%1$s à %2$s")
 				.replace("<value int>", "%s").trim();
 		return formattedString.trim();
 	}
