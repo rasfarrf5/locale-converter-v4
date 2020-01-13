@@ -1,5 +1,6 @@
 package converter.plugin.process;
 
+import converter.plugin.support.ReplaceHelper;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
@@ -16,6 +17,8 @@ public class ConvertAndroidLocale {
 	private static final String HEADER = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources xmlns:tools=\"http://schemas.android.com/tools\" tools:ignore=\"MissingTranslation\">\n";
 	private static final String FOOTER = "</resources>";
 	private static final String OUTPUT_XML_FILENAME = "/strings.xml";
+
+	private ReplaceHelper replaceHelper = new ReplaceHelper();
 
 	public boolean loadSheet(List<Integer> languageToConvert, String filePath, String outputFilePath)
 			throws IOException {
@@ -130,7 +133,7 @@ public class ConvertAndroidLocale {
 	private String getString(Cell key, Cell value) {
 		return "\t\t<string name=\""
 				+ key.getStringCellValue().trim() + "\">"
-				+ replaceValue(value.getStringCellValue()) + "</string>";
+				+ replaceHelper.replaceValueAndroid(value.getStringCellValue()) + "</string>";
 	}
 
 	private String getHeader(Cell header) {
@@ -139,31 +142,5 @@ public class ConvertAndroidLocale {
 
 	private String getSubHeader(Cell subHeader) {
 		return "\n\t\t<!--region " + subHeader.getStringCellValue().toUpperCase() + "-->";
-	}
-
-	private String replaceValue(String value) {
-		String formattedString = value
-				.replace("\n", "\\n")
-				.replace("&", "&amp;")
-				.replace("'", "\\'")
-                .replace("\"", "\\\"")
-				.replace("<power>, <screen>, <bed>, <seat value> seat.", "%1$s")
-				.replace("<power>、<screen>、<bed>、<seat value> 座位。", "%1$s")
-				.replace("<US customs website link", "")
-				.replace("<hh:mm>, <D(D) Mmm YYYY>", "%1$s")
-				.replace("•", "\\u2022")
-				.replace("<number>", "%d")
-				.replace("<number 2>", "%2$d")
-				.replace("<number 3>", "%3$d")
-				.replace("<number_decimal_2>", "%.2f")
-				.replace("<value>", "%s")
-				.replace("<value 1>", "%1$s")
-				.replace("<value 2>", "%2$s")
-				.replace("<value 3>", "%3$s")
-				.replace("<value 4>", "%4$s")
-				.replace("<number 1>", "%1$d")
-				.replace("<value 1> à <value 2>", "%1$s à %2$s")
-				.replace("<value int>", "%s").trim();
-		return formattedString.trim();
 	}
 }

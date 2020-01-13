@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.singaporeair.locale.convert'
-version '1.2.1'
+version '1.2.2'
 
 sourceCompatibility = 1.8
 
@@ -21,6 +21,6 @@ intellij {
     version '2019.1'
 }
 patchPluginXml {
-    changeNotes "Locale converter for SingaporeAir"
+    changeNotes "Fix to include double quotes"
 }
 

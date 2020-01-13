@@ -1,5 +1,6 @@
 package converter.plugin.process;
 
+import converter.plugin.support.ReplaceHelper;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
@@ -15,6 +16,8 @@ import java.util.List;
 import static converter.plugin.support.ColumnInfo.*;
 
 public class ConvertIosLocale {
+
+	private ReplaceHelper replaceHelper = new ReplaceHelper();
 
 	public boolean loadSheet(List<Integer> languageToConvert, String filePath, String outputFilePath)
 			throws IOException {
@@ -125,8 +128,8 @@ public class ConvertIosLocale {
 	}
 
 	private String getString(Cell key, Cell value) {
-		return "\"" + key.getStringCellValue().trim() + "\" = \"" +
-				replaceValue(value.getStringCellValue()) + "\";";
+		return "\"" + key.getStringCellValue().trim() + "\" = \""
+				+ replaceHelper.replaceValueForIos(value.getStringCellValue()) + "\";";
 	}
 
 	private String getHeader(Cell header) {
@@ -135,29 +138,5 @@ public class ConvertIosLocale {
 
 	private String getSubHeader(Cell subHeader) {
 		return "\n// region " + subHeader.getStringCellValue().toUpperCase();
-	}
-
-	private String replaceValue(String value) {
-		return value
-				.replace("\n", "\\n")
-				.replace("'", "\\'")
-				.replace("\"", "\\\"")
-				.replace("<power>, <screen>, <bed>, <seat value> seat.", "%@")
-				.replace("<power>、<screen>、<bed>、<seat value> 座位。", "%@")
-				.replace("<US customs website link", "")
-				.replace("<hh:mm>, <D(D) Mmm YYYY>", "%@")
-				.replace("•", "\\u2022")
-				.replace("<number>", "%@")
-				.replace("<number 2>", "%@")
-				.replace("<number 3>", "%@")
-				.replace("<number_decimal_2>", "%@")
-				.replace("<value>", "%@")
-				.replace("<value 1>", "%@")
-				.replace("<value 2>", "%@")
-				.replace("<value 3>", "%@")
-				.replace("<value 4>", "%@")
-				.replace("<number 1>", "%@")
-				.replace("<value 1> à <value 2>", "%@ à %@")
-				.replace("<value int>", "%d").trim();
 	}
 }
